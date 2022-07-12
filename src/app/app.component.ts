@@ -1,104 +1,86 @@
 import { Component } from '@angular/core';
 
+interface Child {
+  name: string;
+  age: number;
+}
+
+interface Passenger {
+  id: number;
+  fullname: string;
+  checkedIn: boolean;
+  checkInDate: number | null;
+  children: Child[] | null;
+}
+
 @Component({
   selector: 'app-root',
   styleUrls: ['./app.component.scss'],
   // templateUrl: './app.component.html',  --> we can use a templateUrl too or just a template
   template: `
     <div class="app">
-      <div>
-        <label for="name-property-binding">Property binding</label>
-        <input
-          id="name-property-binding"
-          type="text"
-          [value]="name"
-          (input)="handleInput($event)"
-          (blur)="handleBlur($event)"
-        />
-      </div>
-      <div>
-        <label for="name-ng-forms-one-way">
-          Ng forms and ngModel - ngModelChange - ONE WAY DATA BINDING
-        </label>
-        <input
-          id="name-ng-forms-one-way"
-          type="text"
-          [ngModel]="name"
-          (ngModelChange)="handleChange($event)"
-        />
-      </div>
-      <div>
-        <label for="name-ng-forms-two-ways">
-          Ng forms and ngModel - ngModelChange - TWO WAY DATA BINDING
-        </label>
-        <input id="name-ng-forms-two-ways" type="text" [(ngModel)]="name" />
-      </div>
-      <p [innerHTML]="name"></p>
-      <button (click)="handleClick()">Change name</button>
-      <div>
-        <h2>Template #ref variables</h2>
-        <input type="text" #username />
-        <button (click)="getValue(username.value)">Get value</button>
-        <p>{{ name }}</p>
-      </div>
-    </div>
-    <div>{{ numberOne + numberTwo }}</div>
-    <div>{{ isHappy ? ':)' : ':(' }}</div>
-    <div>
-      <h1>{{ title + '!' }}</h1>
-      <h1 [innerHTML]="title"></h1>
-      <img [src]="logo" />
-    </div>
-    <div>
-      <h1>Rendering Flows</h1>
-      <div>
-        <h2>ngIf</h2>
-        <div>
-          <input
-            type="text"
-            [value]="name"
-            (input)="handleChangeDataFlow($event)"
-          />
-          <ng-template [ngIf]="name.length">
-            <h3>Using ng-template [ngIf]</h3>
-            <p>Searching for... {{ name }}</p>
-          </ng-template>
-          <div *ngIf="name.length">
-            <h3>Using *ngIf</h3>
-            <p>Searching for... {{ name }}</p>
+      <h3>Airline Passenger - *ngFor - [class]</h3>
+      <ul>
+        <li *ngFor="let passenger of passengers; let i = index">
+          <span class="status" [class.checked-in]="passenger.checkedIn"></span>
+          <!-- [class] access to className  -->
+          {{ i }}: {{ passenger.fullname }}
+          <p>{{ passenger | json }}</p>
+          <div class="date">
+            Check in date:
+            {{
+              passenger.checkInDate
+                ? (passenger.checkInDate | date: 'd MMMM y' | uppercase)
+                : 'Not checked in'
+            }}
           </div>
-        </div>
-      </div>
+          <div class="children">
+            Children: {{ passenger.children?.length || 0 }}
+          </div>
+        </li>
+      </ul>
     </div>
   `,
 })
 export class AppComponent {
-  title: string;
-  name: string = '';
-  logo: string = 'assets/logo/logo.svg';
-  isHappy: boolean = false;
-  numberOne: number = 1;
-  numberTwo: number = 2;
-  handleClick() {
-    this.name = 'Ruben';
-  }
-  handleChange(value: string) {
-    this.name = value;
-  }
-  handleInput(event: any) {
-    this.name = event.target.value;
-  }
-  handleBlur(event: any) {
-    this.name = event.target.value;
-    console.log(event);
-  }
-  getValue(value: string) {
-    console.log(value);
-  }
-  handleChangeDataFlow(event: any) {
-    this.name = event.target.value;
-  }
-  constructor() {
-    this.title = 'Ultimate Angular';
-  }
+  passengers: Passenger[] = [
+    {
+      id: 1,
+      fullname: 'Stephen',
+      checkedIn: true,
+      checkInDate: 1490742000000,
+      children: null,
+    },
+    {
+      id: 2,
+      fullname: 'Rose',
+      checkedIn: false,
+      checkInDate: null,
+      children: [
+        { name: 'Ted', age: 12 },
+        { name: 'Chloe', age: 7 },
+      ],
+    },
+    {
+      id: 3,
+      fullname: 'James',
+      checkedIn: true,
+      checkInDate: 1491606000000,
+      children: null,
+    },
+    {
+      id: 4,
+      fullname: 'Louise',
+      checkedIn: true,
+      checkInDate: 1488412800000,
+      children: [{ name: 'Jessica', age: 1 }],
+    },
+    {
+      id: 5,
+      fullname: 'Tina',
+      checkedIn: false,
+      checkInDate: null,
+      children: null,
+    },
+  ];
 }
