@@ -69,11 +69,11 @@ export class PassengerDetailComponent implements OnChanges, OnInit {
       // we merge the whole object of the current value of the change
       this.detail = Object.assign({}, changes.detail.currentValue);
     }
-    console.log('ngOnChanges');
+    // console.log('ngOnChanges');
   }
 
   ngOnInit() {
-    console.log('ngOnInit');
+    // console.log('ngOnInit');
   }
 
   onNameChange(value: string) {

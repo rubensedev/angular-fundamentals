@@ -8,6 +8,7 @@ import { Passenger } from '../../models/passenger.interface';
     <div>
       <h3>Airline Passengers - *ngFor - [class]</h3>
       <div>Total checked in: {{ checkedInCount() }}/{{ items.length }}</div>
+      <!-- we add the safe navigation (?), angular will wait to that property to be available -->
     </div>
   `,
 })
