@@ -44,6 +44,7 @@ export class PassengerDashboardComponent implements OnInit {
     this.passengerService
       .updatePassengers(event)
       .subscribe((data: Passenger) => {
+        console.log(data);
         this.passengers = this.passengers.map((passenger: Passenger) => {
           if (passenger.id === event.id) {
             passenger = Object.assign({}, passenger, event);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // we need to import Observable and map to use it below
 // because we are goig to map through an obervable not an array
@@ -18,14 +18,27 @@ export class PassengerDashboardService {
   getPassengers(): Observable<Passenger[]> {
     // before we had here the whole passengers collection
     return this.httpClient
-      .get(PASSENGER_API)
+      .get<Passenger[]>(PASSENGER_API)
       .pipe(map((response: any) => response.passengers));
   }
-
+  // updatePassengers(passenger: Passenger): Observable<Passenger> {
+  //   // before we had here the whole passengers collection
+  //   return this.httpClient
+  //     .put(`${JSON.stringify(PASSENGER_API)}/${passenger.id}`, passenger)
+  //     .pipe(map((response: any) => response.passengers));
+  // }
   updatePassengers(passenger: Passenger): Observable<Passenger> {
     // before we had here the whole passengers collection
-    return this.httpClient
-      .put(`${JSON.stringify(PASSENGER_API)}/${passenger.id}`, passenger)
-      .pipe(map((response: any) => response.passengers));
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this.httpClient.put<Passenger>(
+      PASSENGER_API,
+      passenger,
+      httpOptions
+    );
   }
 }
