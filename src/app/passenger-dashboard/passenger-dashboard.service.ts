@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { Passenger } from './models/passenger.interface';
 
 const PASSENGER_API: string = '/assets/db.json';
+const PASSENGER_API2: string = 'api/passengers';
 
 @Injectable()
 export class PassengerDashboardService {
@@ -17,28 +18,53 @@ export class PassengerDashboardService {
 
   getPassengers(): Observable<Passenger[]> {
     // before we had here the whole passengers collection
+    // with get we type the object we are goig to "get"
     return this.httpClient
-      .get<Passenger[]>(PASSENGER_API)
-      .pipe(map((response: any) => response.passengers));
+      .get<Passenger[]>(PASSENGER_API2)
+      .pipe(map((response) => response));
   }
+  // getPassengers(): Observable<Passenger[]> {
+  //   // before we had here the whole passengers collection
+  //   // with get we type the object we are goig to "get"
+  //   return this.httpClient
+  //     .get<{ passengers: Passenger[] }>(PASSENGER_API2)
+  //     .pipe(
+  //       map((response) => {
+  //         console.log(response);
+  //         return response;
+  //       })
+  //     );
+  // }
   // updatePassengers(passenger: Passenger): Observable<Passenger> {
   //   // before we had here the whole passengers collection
   //   return this.httpClient
   //     .put(`${JSON.stringify(PASSENGER_API)}/${passenger.id}`, passenger)
   //     .pipe(map((response: any) => response.passengers));
   // }
-  updatePassengers(passenger: Passenger): Observable<Passenger> {
-    // before we had here the whole passengers collection
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
 
-    return this.httpClient.put<Passenger>(
-      PASSENGER_API,
-      passenger,
-      httpOptions
+  // we return a null becaus the library used is configure in that way, because is a local database
+  updatePassengers(passenger: Passenger): Observable<null> {
+    // before we had here the whole passengers collection
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //   }),
+    // };
+
+    return this.httpClient.put<null>(
+      `${PASSENGER_API2}/${passenger.id}`,
+      passenger
     );
+  }
+
+  deletePassenger(id: number): Observable<Passenger> {
+    // before we had here the whole passengers collection
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //   }),
+    // };
+
+    return this.httpClient.delete<Passenger>(`${PASSENGER_API2}/${id}`);
   }
 }

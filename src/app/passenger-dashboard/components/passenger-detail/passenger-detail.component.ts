@@ -45,13 +45,8 @@ import { Passenger } from '../../models/passenger.interface';
 })
 export class PassengerDetailComponent implements OnChanges, OnInit {
   @Input()
-  detail: Passenger = {
-    id: 0,
-    fullname: '',
-    checkedIn: true,
-    checkInDate: 1490742000000,
-    children: null,
-  };
+  // ! --> control the data type of the variable
+  detail!: Passenger;
 
   @Output()
   edit: EventEmitter<any> = new EventEmitter();

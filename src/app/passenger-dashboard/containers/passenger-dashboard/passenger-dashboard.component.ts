@@ -38,25 +38,24 @@ export class PassengerDashboardComponent implements OnInit {
     // this.passengers = this.passengerService.getPassengers(); --> we change this line into the below line
     this.passengerService
       .getPassengers()
-      .subscribe((data: Passenger[]) => (this.passengers = data));
+      .subscribe((data) => (this.passengers = data));
   }
   handleEdit(event: Passenger) {
-    this.passengerService
-      .updatePassengers(event)
-      .subscribe((data: Passenger) => {
-        console.log(data);
-        this.passengers = this.passengers.map((passenger: Passenger) => {
-          if (passenger.id === event.id) {
-            passenger = Object.assign({}, passenger, event);
-          }
-          return passenger;
-        });
+    this.passengerService.updatePassengers(event).subscribe(() => {
+      this.passengers = this.passengers.map((passenger: Passenger) => {
+        if (passenger.id === event.id) {
+          passenger = Object.assign({}, passenger, event);
+        }
+        return passenger;
       });
+    });
   }
   handleRemove(event: Passenger) {
-    this.passengers = this.passengers.filter((passenger: Passenger) => {
-      // check if id is equal to the one we clicked to filter de collection
-      return passenger.id !== event.id;
+    this.passengerService.deletePassenger(event.id).subscribe(() => {
+      this.passengers = this.passengers.filter((passenger: Passenger) => {
+        // check if id is equal to the one we clicked to filter de collection
+        return passenger.id !== event.id;
+      });
     });
   }
 }

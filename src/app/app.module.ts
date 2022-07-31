@@ -8,6 +8,9 @@ import { PassengerDashboardModule } from './passenger-dashboard/passenger-dashbo
 
 import { AppComponent } from './app.component';
 
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { DataService } from './data.services';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -16,6 +19,7 @@ import { AppComponent } from './app.component';
     CommonModule,
     FormsModule,
     PassengerDashboardModule,
+    HttpClientInMemoryWebApiModule.forRoot(DataService),
   ],
   bootstrap: [AppComponent],
 })
