@@ -6,7 +6,8 @@ import { Component } from '@angular/core';
   // templateUrl: './app.component.html',  --> we can use a templateUrl too or just a template
   template: `
     <div class="app">
-      <passenger-dashboard></passenger-dashboard>
+      <!-- <passenger-dashboard></passenger-dashboard> -->
+      <passenger-viewer></passenger-viewer>
     </div>
   `,
 })
